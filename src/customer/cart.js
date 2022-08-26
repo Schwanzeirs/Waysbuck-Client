@@ -95,7 +95,7 @@ export default function Cart() {
 
         let scriptTag = document.createElement("script");
         scriptTag.src = midtransScriptUrl;
-        scriptTag.setAttribute("data-client-key", myMidTransClientKey);
+        scriptTag.setAttribute("data-client-key", myMidtransClientKey);
 
         document.body.appendChild(scriptTag);
         return () => {
