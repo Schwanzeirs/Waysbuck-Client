@@ -99,7 +99,7 @@ export default function Profile() {
                 {item.cart.map((itm, idx) => (
                   <div key={idx} className='d-flex'>
                     <div>
-                      <img className='img-drink' src={`http://localhost:5000/uploads/` + itm.product?.image} />
+                      <img className='img-drink' src={itm.product?.image} />
                     </div>
                     <div className='ms-3'>
                       <h4 style={{ color: "#BD0707" }}>{itm.product?.title}</h4>
