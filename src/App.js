@@ -66,7 +66,9 @@ function App() {
  };
 
  useEffect(() => {
-   checkUser();
+  if (localStorage.token) {
+    checkUser();
+  }
  }, []);
   return (
     <>
