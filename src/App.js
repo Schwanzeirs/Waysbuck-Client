@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useContext} from "react";
-import { BrowserRouter as Router, Route, Routes, useNavigate  } from "react-router-dom";
+import React, { useEffect, useState, useContext } from "react";
+import { BrowserRouter as Router, Route, Routes, useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Main from "../src/pages/main";
 import Cart from "./customer/cart"
@@ -24,69 +24,71 @@ if (localStorage.token) {
 function App() {
   let navigate = useNavigate();
   const [state, dispatch] = useContext(Usercontext)
+  console.log(state);
 
- useEffect(() => {
+  useEffect(() => {
 
-  if (localStorage.token) {
-    setAuthToken(localStorage.token)
-  }
+    if (localStorage.token) {
+      setAuthToken(localStorage.token)
+    }
 
+    if (state.isLogin === false) {
+      navigate('/');
+    } else {
+      if (state.user.status === "admin") {
+        navigate("/admin");
+      } else if (state.user.status === "customer") {
+        navigate("/main");
+      }
+    }
+  }, [state]);
 
-   if (state.isLogin == false) {
-     navigate('/');
-   } else {
-     if (state.user.status == 'admin') {
-      navigate('admin');
-     } else if (state.user.status == 'customer') {
-       navigate('/main');
-     }
-   }
- }, [state]);
+  const checkUser = async () => {
+    try {
+      const response = await API.get("/check-auth")
 
- const checkUser = async () => {
-   try {
-     const response = await API.get('/check-auth')
+      console.log(response);
 
-     if (response.status === 404) {
-       return dispatch({
-         type: 'AUTH_ERROR',
-       });
-     }
+      if (response.status === 404) {
+        return dispatch({
+          type: "AUTH_ERROR",
+        });
+      }
 
-     let payload = response.data.data;
-     payload.token = localStorage.token;
+      let payload = response.data.data;
+      payload.token = localStorage.token;
 
-     dispatch({
-       type: 'USER_SUCCESS',
-       payload,
-     });
-   } catch (error) {
-     console.log(error);
-   }
- };
+      dispatch({
+        type: "USER_SUCCESS",
+        payload,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
- useEffect(() => {
-  if (localStorage.token) {
-    checkUser();
-  }
- }, []);
+  useEffect(() => {
+    if (localStorage.token) {
+      checkUser();
+    }
+  }, []);
   return (
     <>
       <Routes>
-        <Route exact path='/' element={<Home/>}/>
-        <Route exact path='/main' element={<Main/>}/>
-        <Route exact path='/cart' element={<Cart/>}/>
-        <Route exact path='/profile' element={<Profile/>}/>
-        <Route exact path='/addprofile' element={<Addprofile/>}/>
-        <Route exact path='/editprofile' element={<Editprofile/>}/>
+        <Route exact path='/' element={<Home />} />
+        <Route exact path='/main' element={<Main />} />
+        <Route exact path='/cart' element={<Cart />} />
+        <Route exact path='/profile' element={<Profile />} />
+        <Route exact path='/addprofile' element={<Addprofile />} />
+        <Route exact path='/editprofile' element={<Editprofile />} />
         {/* <Route exact path='/listproduct' element={<ListProduct/>}/> */}
-        <Route exact path='/add-drink' element={<AddProduct/>}/>
-        <Route exact path='/add-toping' element={<AddToping/>}/>
-        <Route exact path='/add-toping' element={<AddToping/>}/>
-        <Route exact path='/login' element={<Login/>}/>
-        <Route exact path='/admin' element={<IncomeTransaction/>}/>
-        <Route exact path='/detail-drink/:id' element={< DetailProduct data ={DataDrink}/>}/>
-     </Routes>
+        <Route exact path='/add-drink' element={<AddProduct />} />
+        <Route exact path='/add-toping' element={<AddToping />} />
+        <Route exact path='/add-toping' element={<AddToping />} />
+        <Route exact path='/login' element={<Login />} />
+        <Route exact path='/admin' element={<IncomeTransaction />} />
+        <Route exact path='/detail-drink/:id' element={< DetailProduct data={DataDrink} />} />
+      </Routes>
     </>
   );
 }

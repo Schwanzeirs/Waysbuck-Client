@@ -16,18 +16,19 @@ export default function AddProduct() {
   const [preview, setPreview] = useState(null)
 
   const [form, setForm] = useState({
-      title : '',
-      price : '',
-      image : '',
+      title : "",
+      price : "",
+      image : "",
   });
 
   const handleOnChange = (e) => {
         setForm(({
           ...form,
-          [e.target.name]:e.target.type === 'file' ? e.target.files : e.target.value,
+          [e.target.name]:
+          e.target.type === "file" ? e.target.files : e.target.value,
         }))
 
-        if (e.target.type === 'file') {
+        if (e.target.type === "file") {
           let url = URL.createObjectURL(e.target.files[0]);
           setPreview(url);
         }
@@ -39,19 +40,22 @@ export default function AddProduct() {
 
       const config = {
         headers: {
-          'Content-type': 'multipart/form-data',
-        }
+          "Content-type": "multipart/form-data",
+        },
       };
 
       const formData = new FormData();
-      formData.set('title', form.title)
-      formData.set('price', form.price)
-      formData.set('image', form.image[0], form.image[0].name)
+      formData.set("title", form.title)
+      formData.set("price", form.price)
+      formData.set("image", form.image[0], form.image[0].name)
 
 
-      const response = await API.post('/product', formData, config)
+      const response = await API.post("/product", formData, config)
+      console.log(response.data.data);
 
-      navigate('/add-drink');
+      if (response.data.code == 200) {
+        navigate('/add-drink');
+      }
     } catch (error) {
       const alert = (
         <Alert variant="danger" className="py-1">
