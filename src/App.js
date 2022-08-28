@@ -26,6 +26,12 @@ function App() {
   const [state, dispatch] = useContext(Usercontext)
 
  useEffect(() => {
+
+  if (localStorage.token) {
+    setAuthToken(localStorage.token)
+  }
+
+
    if (state.isLogin == false) {
      navigate('/');
    } else {
