@@ -12,6 +12,7 @@ import { useMutation } from 'react-query';
 export default function AddProduct() {
 
   const navigate = useNavigate();
+  const [message, setMessage] = useState('')
 
   const [preview, setPreview] = useState(null)
 
@@ -62,6 +63,7 @@ export default function AddProduct() {
           Failed
         </Alert>
       );
+      setMessage(alert)
       console.log(error);
     }
   })
@@ -69,6 +71,7 @@ export default function AddProduct() {
   return (
     <>
       <NavbarAdmin/>
+      {message && message}
       <div className='page-add-product justify-content-center'>
         <div className='formPageProduct'>
           <div className='title-product '>
