@@ -41,8 +41,8 @@ export default function AddProduct() {
 
       const config = {
         headers: {
-          "Content-type": "multipart/form-data",
-        },
+          "Content-Type": "multipart/form-data",
+        },  
       };
 
       const formData = new FormData();
